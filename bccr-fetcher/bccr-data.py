@@ -18,8 +18,6 @@ from playwright.sync_api import sync_playwright
 import pandas as pd
 from fetcher import download_data
 
-URL = "https://sdd.bccr.fi.cr/es/IndicadoresEconomicos/Inicio/Contenedor/6?Cuadro=1"
-
 class BCCR:
     def __init__(self, indicator: str, start: str, end: str):
         self.indicator = indicator
@@ -30,7 +28,3 @@ class BCCR:
         return download_data(indicator=self.indicator, start=self.start, end=self.end)
 
 
-
-conn = BCCR(indicator='TPM', start='', end='')
-df = conn.download()
-print(df)
