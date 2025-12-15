@@ -6,7 +6,7 @@
 ---
 
 # ¿Qué hace?
-Entrar al sitio web del BCCR, descargar el Excel de los datos, subirlos a Python y manejarlos puede ser un proceso un poco repetitivo, en lo personal tener esta herramienta me pemite con un par d líneas de código tener indicadores económicos del BCCR en un dataframe de pandas en segundos
+Entrar al sitio web del BCCR, descargar el Excel de los datos, subirlos a Python y manejarlos puede ser un proceso un poco repetitivo, en lo personal tener esta herramienta me pemite con un par de líneas de código tener indicadores económicos del BCCR en un dataframe de pandas en segundos
 
 # ¿Cómo la uso?
 Es muy sencillo, simplemente se debe escribir las siguientes líneas de código en un entorno .py o .ipynb
