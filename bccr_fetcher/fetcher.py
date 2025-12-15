@@ -39,5 +39,5 @@ def download_data(indicator: str, start, end, rows_to_skip=0):
 
 
         browser.close()
-        print("BCCR_FETCHER: Consejo, si la librería devuelve Empty dataframe y uso un filtro de fechas 'start', puede que haya querido filtrar fechas muy prontas y todavía no hay datos disponibles ofrecidos en el sitio web del BCCR")
+        print("BCCR_FETCHER: Consejo, si la librería devuelve Empty dataframe y se usó un filtro de fechas 'start', puede que haya querido filtrar fechas muy prontas y todavía no hay datos disponibles ofrecidos en el sitio web del BCCR")
         return df
