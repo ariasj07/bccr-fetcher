@@ -6,25 +6,34 @@
 ---
 
 # ¿Qué hace?
-Entrar al sitio web del BCCR, descargar el Excel de los datos, subirlos a Python y manejarlos puede ser un proceso un poco repetitivo, en lo personal tener esta herramienta me pemite con 3 lineas de código tener indicadores económicos del BCCR en un dataframe de pandas en segundos
+Entrar al sitio web del BCCR, descargar el Excel de los datos, subirlos a Python y manejarlos puede ser un proceso un poco repetitivo, en lo personal tener esta herramienta me pemite con un par d líneas de código tener indicadores económicos del BCCR en un dataframe de pandas en segundos
 
 # ¿Cómo la uso?
-Es muy sencillo, simplemente se debe escribir las siguientes lineas de código en un entorno .py o .ipynb
+Es muy sencillo, simplemente se debe escribir las siguientes líneas de código en un entorno .py o .ipynb
 
 ```python
-conn = BCCR(indicator='TPM', start='', end='')
+import bccr_fetcher
+
+conn = bccr_fetcher.BCCR(
+    indicator="IMAE",
+    start="",
+    end="",
+    rows_to_skip=4
+)
+
 df = conn.download()
 print(df)
 ```
 
 `conn` es el conector con el sitio del BCCR  y la instancia de la clase, pide ciertos párametros:
 - `indicator`: Hay varios. Tales como: `EMPLEO`, `TIPO_DE_CAMBIO`, `TPM`. De momento me encuentro trabajando en añadir más y esperando poder tener soporte para todos los indicadores económicos disponibles en el sitio web
-- `start` (Opcional) este permite ponerle un mínimo de fecha a los datos para obtener el dataframe filtado por fechas, *importante*: Las fechas deben estar en formáto: YYYY-MM-DD, en caso no indicar una, se descargarán los datos con la fecha que se selecciona por defecto, la cual tiende a ser la mas vieja registrada
-- `start` (Opcional) este permite ponerle un máximo de fecha a los datos para obtener el dataframe filtado por fechas, *importante*: Las fechas deben estar en formáto: YYYY-MM-DD, en caso no indicar una, se descargarán los datos con la fecha que se selecciona por defecto, la cual tiende a ser la mas reciente registrada
+- `start` (Opcional) este permite ponerle un mínimo de fecha a los datos para obtener el dataframe filtrado por fechas, *importante*: Las fechas deben estar en formáto: AAAA-MM-DD, en caso no indicar una, se descargarán los datos con la fecha que se selecciona por defecto, la cual tiende a ser la más vieja registrada
+- `start` (Opcional) este permite ponerle un máximo de fecha a los datos para obtener el dataframe filtrado por fechas, *importante*: Las fechas deben estar en formáto: AAAA-MM-DD, en caso no indicar una, se descargarán los datos con la fecha que se selecciona por defecto, la cual tiende a ser la más reciente registrada
+- `rows_to_skip` **(IMPORTANTE)** Los Excels brindados por el BCCR (que son los que la librería descargará); inician con un número x de filas con información no númerica, se recomienda usar el parámetro 'rows_to_skip' en la instancia de clase BCCR e indicar rows_to_skip=4, así el dataframe ignorará las primeras 4 filas, esto puede variar, algúnos indicadores económicos traen menos filas sin datos númericos, otros más, por defecto este parámetro será `0`. Si no se indica: más adelante igualmente con ayuda de `pandas` podrá eliminar las filas que no desea.
 
 `df` es la variable que contiene lo que el método `download()` devuelve, que es un dataframe con los datos listo para usarse
 
-Actualmente continúo trabajando en la librería, pronto la subiré a pip para poder ser descargada de la manera mas breve y sencilla posible desde cualquier entorno de Python. Esta librería necesita Python >= 3.10 y las siguientes librerías:
+Actualmente continúo trabajando en la librería, pronto la subiré a `pip` para poder ser descargada de la manera más breve y sencilla posible desde cualquier entorno de Python. Esta librería necesita Python >= 3.10 y las siguientes librerías:
 `pandas`  
 `playwright`    
 
@@ -36,15 +45,24 @@ o si usa un notebook como el de Google Colab:
 Véase un ejemplo de su uso:
 
 ```python
-conn = BCCR(indicator='TPM', start='', end='')
+import bccr_fetcher
+
+conn = bccr_fetcher.BCCR(
+    indicator="EXPECTATIVAS_INFLACION",
+    start="",
+    end="",
+    rows_to_skip=4
+)
+
 df = conn.download()
 print(df)
 ```
 
 Salida:  
-<img width="447" height="348" alt="image" src="https://github.com/user-attachments/assets/4dc48211-8d59-4712-abf0-7b2dedb52477" />
+![alt text](image.png)
 
 Como mencioné, esta librería no está afiliada al BCCR, es un proyecto personal y de código abierto, si encuentra un fallo por favor contácteme para solucionarlo lo más breve posible:  
+  
 Email: josuearias.crc@gmail.com  
 Linkedin: https://www.linkedin.com/in/josu%C3%A9-arias-gauna-835bb1342/
 
