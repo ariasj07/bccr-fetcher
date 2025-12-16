@@ -39,7 +39,7 @@ Actualmente continúo trabajando en la librería, pronto la subiré a `pip` para
 
 Se pueden instalar ejecutando el siguiente cómando en su consola:
 `pip install pandas playwright`
-o si usa un notebook como el de Google Colab:
+Si está por usar la librería desde un entorno de notebook como el de Google Colab:
 `!pip install pandas playwright`
 
 Véase un ejemplo de su uso:
@@ -51,7 +51,8 @@ conn = bccr_fetcher.BCCR(
     indicator="EXPECTATIVAS_INFLACION",
     start="",
     end="",
-    rows_to_skip=4
+    rows_to_skip=4,
+    is_colab=True
 )
 
 df = conn.download()
@@ -59,7 +60,7 @@ print(df)
 ```
 
 Salida:  
-![alt text](image.png)
+![alt text](image-1.png)
 
 Como mencioné, esta librería no está afiliada al BCCR, es un proyecto personal y de código abierto, si encuentra un fallo por favor contácteme para solucionarlo lo más breve posible:  
   
