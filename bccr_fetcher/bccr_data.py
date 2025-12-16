@@ -20,13 +20,14 @@ import pandas as pd
 from .fetcher import download_data
 
 class BCCR:
-    def __init__(self, indicator: str, start: str, end: str, rows_to_skip: int):
+    def __init__(self, indicator: str, start: str, end: str, rows_to_skip: int, is_colab: bool = False):
         self.indicator = indicator
         self.start = start
         self.end = end
         self.rows_to_skip = rows_to_skip
+        self.is_colab = is_colab
 
     def download(self):
-        return download_data(indicator=self.indicator, start=self.start, end=self.end, rows_to_skip=self.rows_to_skip)
+        return download_data(indicator=self.indicator, start=self.start, end=self.end, rows_to_skip=self.rows_to_skip, is_colab=self.is_colab)
 
 

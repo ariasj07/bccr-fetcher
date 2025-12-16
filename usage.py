@@ -5,11 +5,10 @@ conn = bccr_fetcher.BCCR(
     indicator="EXPECTATIVAS_INFLACION",
     start="",
     end="",
-    rows_to_skip=4
+    rows_to_skip=4,
+    is_colab=False
 )
 
-"""
 # Ejemplo de uso: 
 df = conn.download()
 print(df)
-"""
