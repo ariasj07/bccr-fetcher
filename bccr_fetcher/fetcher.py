@@ -1,23 +1,16 @@
 import pandas as pd
 import asyncio
+import nest_asyncio
 
 from .utils import XPATH_DOWNLOAD, XPATH_PREDOWNLOAD, URLS, XPATH_FULL_INDICATORS_SELECT
 
 def download_data(indicator: str, start="", end="", rows_to_skip=0, is_colab=False):
-    """    
-    Parámetros:
-    - indicator: nombre del indicador a descargar.
-    - start: fecha de inicio (opcional).
-    - end: fecha de fin (opcional).
-    - rows_to_skip: filas iniciales a ignorar en el Excel.
-    - is_colab: si True, usa API asíncrona para entornos como Google Colab.
-    """
     print("BCCR_FETCHER ATENCIÓN: Los Excels brindados por el BCCR inician con un número x de filas con información no númerica, se recomienda usar el parámetro 'rows_to_skip'.")
     print("BCCR_FETCHER: La información se está empezando a descargar...")
 
     if is_colab:
-        # Versión asíncrona para Colab
         from playwright.async_api import async_playwright
+        nest_asyncio.apply()  # Permite ejecutar async en Colab
 
         async def async_download():
             async with async_playwright() as p:
@@ -41,14 +34,17 @@ def download_data(indicator: str, start="", end="", rows_to_skip=0, is_colab=Fal
                 excel_path = await download.path()
 
                 df = pd.read_excel(excel_path, skiprows=rows_to_skip)
-
                 await browser.close()
                 return df
 
-        df = asyncio.run(async_download())
+        # Ejecutar correctamente según si hay loop activo
+        try:
+            loop = asyncio.get_running_loop()
+            df = loop.run_until_complete(async_download())
+        except RuntimeError:  # No hay loop activo
+            df = asyncio.run(async_download())
 
     else:
-        # Versión síncrona
         from playwright.sync_api import sync_playwright
 
         with sync_playwright() as p:
@@ -83,5 +79,5 @@ def download_data(indicator: str, start="", end="", rows_to_skip=0, is_colab=Fal
     }
     df = options[bool(start.strip()), bool(end.strip())](df)
 
-    print("BCCR_FETCHER: Consejo, si la librería devuelve Empty dataframe y uso un filtro de fechas 'start', puede que haya querido filtrar fechas muy prontas y todavía no hay datos disponibles ofrecidos en el sitio web del BCCR")
+    print("BCCR_FETCHER: Descarga completada.")
     return df
